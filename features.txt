@@ -1,0 +1,38 @@
+Feature #1:Application Access
+    As an Augsburg student  I want to be able to access the application, so that I can use it
+    Given a user is an Augsburg student, when they are in orientation, they will be given access to the application.
+
+Feature #2: Simple front page of Auggie Netizen
+    The front page should use Augsburg Colors
+
+Feature #3: Map for Students
+    As an Augsburg student, I want to be able to see a map so I can know where the issue is if I am not aware of what the place is
+    Given a user has the application, when they want to know where the “incident” is, they will be able to look at the map to see where it is.
+
+Feature #4: List of Numbers
+    As an Augsburg student, I want to be able to see a list of admin numbers I can call so I can contact them if I need to
+    Given a user is an Augsburg student, when they want to know numbers they are able to call for an emergency, they will be able to find a list of numbers they can contact
+
+Feature #5: Posting 
+    As an Augsburg student, I want to be able to make a post, so others are aware of what is going on
+    Given a user is an Augsburg student, when they want to make a post about an issue, they will be able to press the “post” button to begin making a post with an option to include an image.
+
+Feature #6: Commenting
+    As an Augsburg student, I want to be able to comment on a post, so I can easily have my questions about the post answered or add more information to a post
+    Given a user is an Augsburg student, when they want to comment on a post to either inquire more about the issue or add more information to the post, they will be able to press the comment button on the post to begin to either view comments or make a comment.
+
+Feature #7: Direct Messaging
+    As an Augsburg student, I want to be able to message people directly from the app, so I can keep in contact with others about an issue
+    Given a user is an Augsburg student, when they want to message people directly from the app, they will be able to press their “messages” tab to directly message someone.
+
+Feature #8: Filtering
+    As an Augsburg student, I want to be able to filter the posts by a variety of different options, so I can see only what I want
+    Given a user is an Augsburg student, when they want to filter the posts, they will be able to press the filter button and be able to filter by either building, day, or both.
+
+Feature #9: Incidents
+    As an Augsburg student, I want to know about any ticketing or towing issues
+    Given a user is an Augsburg student,  when I press on the issues tab, then I will know about ticketing or towing on campus.
+
+Feature #10: Sorting
+    As an Augsburg student, I want to be able to sort the posts by a variety of options, so I can have my feed ordered to my liking
+    Given a user is on the feed tab, when they want to sort the posts, they will be able to press the sort button and be able to sort the feed by either most recent or least recent
