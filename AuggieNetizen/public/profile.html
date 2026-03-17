@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile</title>
+<!-- temp styles -->
+<style>
+.edit-btn{
+background:#2a2d35;
+border:none;
+color:white;
+padding:6px 10px;
+border-radius:10px;
+}
+
+.badge{
+padding:3px 8px;
+border-radius:8px;
+font-size:12px;
+margin-right:5px;
+}
+
+.yellow{background:#ffb400;}
+.blue{background:#3b82f6;}
+.red{background:#b91c1c;}
+
+.green{
+color:#22c55e;
+}
+    body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#0f1115;
+    color:white;
+    }
+    
+    .app{
+    max-width:400px;
+    margin:auto;
+    padding:20px;
+    }
+    
+    /* HEADER */
+    .header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+    }
+    
+    .header span{
+    color:orange;
+    }
+    
+    /* PROFILE CARD */
+    .profile-card{
+    display:flex;
+    background:#1a1d24;
+    padding:15px;
+    border-radius:15px;
+    margin-bottom:15px;
+    }
+    
+    .avatar{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:#c94b4b;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    }
+    
+    .profile-right{
+    margin-left:15px;
+    }
+    
+    /* STATS */
+    .stats{
+    display:flex;
+    justify-content:space-around;
+    background:#1a1d24;
+    padding:10px;
+    border-radius:15px;
+    margin-bottom:15px;
+    text-align:center;
+    }
+    
+    /* TABS */
+    .tabs{
+    display:flex;
+    justify-content:space-around;
+    margin-bottom:10px;
+    }
+    
+    .tabs .active{
+    color:orange;
+    border-bottom:2px solid orange;
+    }
+    
+    /* MESSAGES */
+    .message{
+    display:flex;
+    align-items:center;
+    padding:10px 0;
+    border-bottom:1px solid #222;
+    }
+    
+    .icon{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-right:10px;
+    }
+    
+    .text{
+    flex:1;
+    }
+    
+    .time{
+    color:#888;
+    font-size:12px;
+    }
+    
+    /* BOTTOM NAV */
+    .bottom-nav{
+    display:flex;
+    justify-content:space-around;
+    padding:10px 0;
+    margin-top:20px;
+    border-top:1px solid #222;
+    }
+    
+    .bottom-nav .active{
+    color:orange;
+    }
+    
+    </style>
+<!-- end temp styles -->
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>MY<span>PROFILE</span></h1>
+        <button class="edit-btn">Edit</button>
+    </div>
+
+    <!-- PROFILE CARD -->
+    <div class="profile-card">
+
+        <div class="profile-left">
+            <div class="avatar">AK</div>
+        </div>
+
+        <div class="profile-right">
+            <h2>Alex Kim</h2>
+            <p>@alex_auggie</p>
+
+            <div class="badges">
+                <span class="badge yellow">AUGGIE</span>
+                <span class="badge blue">VERIFIED</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+        <div><h3>24</h3><p>Reports</p></div>
+        <div><h3>312</h3><p>Points</p></div>
+        <div><h3 class="green">98%</h3><p>Accuracy</p></div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <span>Activity</span>
+        <span class="active">Messages</span>
+        <span>Saved</span>
+    </div>
+
+    <!-- MESSAGES -->
+    <div class="messages">
+
+        <div class="message">
+            <div class="icon red">CP</div>
+            <div class="text">
+                <h4>Campus Police</h4>
+                <p>Thanks for the quick report earlier...</p>
+            </div>
+            <span class="time">2m</span>
+        </div>
+
+        <div class="message">
+            <div class="icon blue">MJ</div>
+            <div class="text">
+                <h4>mjohnson</h4>
+                <p>Did you see what happened near the library?</p>
+            </div>
+            <span class="time">14m</span>
+        </div>
+
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav">
+        <span>Map</span>
+        <span>Feed</span>
+        <span>Report</span>
+        <span>Alerts</span>
+        <span class="active">Profile</span>
+    </div>
+
+</div>
+
+</body>
+</html>
