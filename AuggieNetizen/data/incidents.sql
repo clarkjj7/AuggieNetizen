@@ -2,8 +2,6 @@
 
 --  AuggieNETICEN — Database Schema
 
---  Run this to set up your tables
-
 -- =============================================
 
 -- Incidents table
