@@ -1,1 +1,33 @@
- # The "Look" (Dark mode, fonts, button colors)
+body{
+    font-family: arial, sans-serif;
+    background-color: white;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+#title{
+    font-size: 100px;
+    text-align: center;
+    margin: 0 0 20px 0;
+}
+#login-container, #register-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+#login-form, #register-form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#login-buttons, #register-buttons{
+    display: flex;
+    justify-content: center;
+}
+#error-message{
+    color:red;
+    text-align:center;
+}
