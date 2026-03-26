@@ -46,3 +46,68 @@ app.post('/register', async (req,res) => {
       }
     return res.status(200).json({message: "Sign up successful"})
 })
+
+// Authentication (checks the token on protected routes) 
+ 
+async function authenticate(req, res, next) {
+    const token = req.headers['authorization']?.replace('Bearer ', '')
+    if (!token) return res.status(401).json({error: 'Missing auth token'})
+ 
+    const {data: {user}, error} = await supabase.auth.getUser(token)
+    if (error || !user) return res.status(401).json({error: 'Invalid token'})
+ 
+    req.user = user
+    next()
+}
+ 
+// Incidents section
+ 
+// gets every  incidents
+app.get('/incidents', async (req, res) => {
+    const {data, error} = await supabase
+        .from('incidents')
+        .select('*')
+        .order('created_at', {ascending: false})
+ 
+    if (error) return res.status(500).json({error: error.message})
+    return res.status(200).json({incidents: data})
+})
+ 
+// this will create a new incident ( you have to be  be logged in)
+app.post('/incidents', authenticate, async (req, res) => {
+    const {type, title, description, lat, lng, address, severity} = req.body
+ 
+    const {data, error} = await supabase
+        .from('incidents')
+        .insert([{
+            type,
+            title,
+            description,
+            lat,
+            lng,
+            address,
+            severity: severity || 'medium',
+            status: 'unverified',
+            reported_by: req.user.id
+        }])
+        .select()
+        .single()
+ 
+    if (error) return res.status(500).json({error: error.message})
+    return res.status(201).json(data)
+})
+ 
+// Alerts
+ 
+// this will get all active alerts
+app.get('/alerts', async (req, res) => {
+    const {data, error} = await supabase
+        .from('alerts')
+        .select('*')
+        .gt('expires_at', new Date().toISOString())
+        .order('created_at', {ascending: false})
+ 
+    if (error) return res.status(500).json({error: error.message})
+    return res.status(200).json({alerts: data})
+})
+ 
