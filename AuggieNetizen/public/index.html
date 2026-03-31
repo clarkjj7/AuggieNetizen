@@ -1,1 +1,25 @@
-#The main website page (Map + Buttons)
+<!--index.html(Login page)-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Auggie Netizen</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <div id="login-container">
+            <h1 id="title">Auggie Netizen</h1>
+            <div id="login-form">
+                <input type="email" id="email" placeholder="username@augsburg.edu" autocomplete="email" required>
+                <input type="password" id="password" placeholder="********" required>
+                <div id="login-buttons">
+                    <button id="login-button">Login</button>
+                </div>
+                <p>Don't have an account? <button><a href="register.html">Register</a></button></p>
+                <p id="error-message"></p>
+            </div>
+        </div>
+    </body>
+</html>
