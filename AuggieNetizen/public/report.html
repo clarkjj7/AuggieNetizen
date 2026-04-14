@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report</title>
+
+<style>
+body{margin:0;background:#0f1115;color:white;font-family:Arial;}
+.app{max-width:400px;margin:auto;padding:20px;}
+
+.option{
+background:#1a1d24;
+padding:10px;
+border-radius:10px;
+margin:5px;
+display:inline-block;
+cursor:pointer;
+}
+
+.selected{background:#7f1d1d;}
+
+textarea{
+width:100%;
+margin-top:10px;
+background:#1a1d24;
+border:none;
+color:white;
+padding:10px;
+border-radius:10px;
+}
+
+.submit{
+background:#7f1d1d;
+padding:15px;
+border-radius:15px;
+text-align:center;
+margin-top:20px;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<h2>REPORT INCIDENT</h2>
+
+<div>
+<span class="option">Suspicious</span>
+<span class="option">Fire</span>
+<span class="option">Medical</span>
+</div>
+
+<textarea placeholder="Describe what you see..."></textarea>
+
+<div class="submit" id="submit">SUBMIT REPORT</div>
+
+</div>
+
+<script src="report.js"></script>
+</body>
+</html>
