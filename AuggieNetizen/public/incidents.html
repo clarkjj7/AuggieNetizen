@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Incident</title>
+
+<style>
+body{margin:0;background:#0f1115;color:white;font-family:Arial;}
+.app{max-width:400px;margin:auto;padding:20px;}
+
+.tag{
+background:#7f1d1d;
+padding:5px 10px;
+border-radius:10px;
+display:inline-block;
+margin-bottom:10px;
+}
+
+.stat-box{
+display:flex;justify-content:space-around;
+margin:15px 0;
+}
+
+.btn{
+background:#7f1d1d;
+padding:10px;
+border-radius:10px;
+text-align:center;
+margin-top:10px;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="tag" id="type">TYPE</div>
+
+<h2 id="title">Incident Title</h2>
+<p id="address">Location</p>
+
+<div class="stat-box">
+<div><span id="upvotes">0</span><br>Upvotes</div>
+<div><span id="severity">MEDIUM</span><br>Severity</div>
+<div><span id="status">ACTIVE</span><br>Status</div>
+</div>
+
+<p id="description">Description here...</p>
+
+<div class="btn" id="upvote-btn">👍 Upvote</div>
+
+</div>
+
+<script src="incident.js"></script>
+</body>
+</html>

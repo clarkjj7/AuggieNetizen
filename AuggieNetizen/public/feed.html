@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feed</title>
+
+<style>
+body{margin:0;background:#0f1115;color:white;font-family:Arial;}
+.app{max-width:400px;margin:auto;padding:20px;}
+.header{font-size:22px;margin-bottom:15px;}
+.header span{color:orange;}
+
+.card{
+background:#1a1d24;
+padding:15px;
+border-radius:15px;
+margin-bottom:10px;
+}
+
+.alert{background:#7f1d1d;}
+
+.small{color:#888;font-size:12px;}
+
+.bottom-nav{
+display:flex;justify-content:space-around;
+margin-top:20px;padding-top:10px;border-top:1px solid #222;
+}
+.active{color:orange;}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="header">AUGGIE<span>NETIZEN</span></div>
+
+<div class="card alert">
+<h4>Campus Safety Alert</h4>
+<p>Avoid east parking lot — police activity ongoing</p>
+</div>
+
+<div class="card">
+<h4>Suspicious person near Murphy Square Park</h4>
+<p class="small">20+ min</p>
+</div>
+
+<div class="card">
+<h4>Fire alarm — Christensen Center</h4>
+<p class="small">11m</p>
+</div>
+
+<div class="bottom-nav">
+<span>Map</span>
+<span class="active">Feed</span>
+<span>Report</span>
+<span>Alerts</span>
+<span>Profile</span>
+</div>
+
+</div>
+
+<script src="feed.js"></script>
+</body>
+</html>
