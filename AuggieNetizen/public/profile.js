@@ -4,7 +4,7 @@ const messagesContainer = document.getElementById("messages-container");
 const editBtn = document.getElementById("edit-btn");
 
 
-// ===== Filler to get replaced later =====
+// ===== FAKE DATA (for now) =====
 const messagesData = [
     {
         name: "Campus Police",
@@ -45,7 +45,7 @@ const savedData = [
 
 // ===== RENDER FUNCTION =====
 function renderData(data) {
-    messagesContainer.innerHTML = ""; // clear old content
+    messagesContainer.innerHTML = "";
 
     data.forEach(item => {
         const div = document.createElement("div");
@@ -60,6 +60,11 @@ function renderData(data) {
             <span class="time">${item.time}</span>
         `;
 
+        // CLICK MESSAGE go to INCIDENT PAGE
+        div.addEventListener("click", () => {
+            window.location.href = "incidents.html";
+        });
+
         messagesContainer.appendChild(div);
     });
 }
@@ -69,13 +74,9 @@ function renderData(data) {
 tabs.forEach(tab => {
     tab.addEventListener("click", () => {
 
-        // remove active class
         tabs.forEach(t => t.classList.remove("active"));
-
-        // add active to clicked tab
         tab.classList.add("active");
 
-        // change content based on tab
         const tabText = tab.textContent;
 
         if (tabText === "Messages") {
@@ -95,5 +96,27 @@ editBtn.addEventListener("click", () => {
 });
 
 
-// ===== LOAD DEFAULT (messages on page load) =====
+// ===== NAVIGATION (BOTTOM BAR) =====
+document.getElementById("nav-feed").addEventListener("click", () => {
+    window.location.href = "feed.html";
+});
+
+document.getElementById("nav-report").addEventListener("click", () => {
+    window.location.href = "report.html";
+});
+
+document.getElementById("nav-profile").addEventListener("click", () => {
+    window.location.href = "profile.html";
+});
+
+document.getElementById("nav-map").addEventListener("click", () => {
+    alert("Map page coming soon");
+});
+
+document.getElementById("nav-alerts").addEventListener("click", () => {
+    alert("Alerts page coming soon");
+});
+
+
+// ===== LOAD DEFAULT =====
 renderData(messagesData);
