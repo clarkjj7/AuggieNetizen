@@ -6,61 +6,233 @@
 <title>Feed</title>
 
 <style>
-body{margin:0;background:#0f1115;color:white;font-family:Arial;}
-.app{max-width:400px;margin:auto;padding:20px;}
-.header{font-size:22px;margin-bottom:15px;}
-.header span{color:orange;}
+body { margin: 0; background: #16161C; color: white; font-family: Arial, Helvetica, sans-serif; }
+.app { width: 100%; margin: 0; padding: 0; }
+.top-nav-wrapper {
+position: relative;
+margin: 14px 14px 0 14px;
+z-index: 1200;
+}
+.top-nav-links {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 10px;
+margin: 0;
+padding: 10px 12px;
+background: rgba(22, 22, 28, 0.97);
+border: 1px solid rgba(226, 226, 255, 0.1);
+border-radius: 14px;
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+list-style: none;
+}
+.top-nav-links .nav-item { display: flex; flex: 1; min-width: 0; }
+.top-nav-links .nav-link {
+color: #e2e2ff;
+border-radius: 10px;
+padding: 8px 10px;
+font-size: 14px;
+text-align: center;
+width: 100%;
+border: 1px solid transparent;
+text-decoration: none;
+}
+.top-nav-links .nav-link:hover {
+background: rgba(255, 255, 255, 0.08);
+border-color: rgba(255, 255, 255, 0.12);
+}
+.top-nav-links .nav-link.active {
+background: rgba(122, 122, 255, 0.22);
+border-color: rgba(180, 180, 255, 0.35);
+color: #ffffff;
+}
+.hamburger-btn {
+display: none;
+width: 42px;
+height: 42px;
+border: 1px solid rgba(226, 226, 255, 0.2);
+border-radius: 10px;
+background: #16161C;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+gap: 4px;
+cursor: pointer;
+padding: 0;
+}
+.hamburger-btn span {
+display: block;
+width: 18px;
+height: 2px;
+background: #e2e2ff;
+transition: 0.2s ease;
+}
+.hamburger-btn.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.hamburger-btn.active span:nth-child(2) { opacity: 0; }
+.hamburger-btn.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+.feed-content {
+padding: 16px;
+max-width: 720px;
+margin: 0 auto;
+}
+.subheader { color: #9ca3af; font-size: 18px; margin-bottom: 16px; font-weight: 700; }
 
-.card{
-background:#1a1d24;
-padding:15px;
-border-radius:15px;
-margin-bottom:10px;
+.filters {
+display: flex;
+gap: 8px;
+overflow-x: auto;
+padding-bottom: 8px;
+margin-bottom: 14px;
 }
 
-.alert{background:#7f1d1d;}
-
-.small{color:#888;font-size:12px;}
-
-.bottom-nav{
-display:flex;justify-content:space-around;
-margin-top:20px;padding-top:10px;border-top:1px solid #222;
+.filter-btn {
+background: #22232c;
+color: #d1d5db;
+border: 1px solid #303244;
+border-radius: 999px;
+padding: 8px 12px;
+font-size: 13px;
+cursor: pointer;
+white-space: nowrap;
 }
-.active{color:orange;}
+
+.filter-btn.active {
+background: #3b3f5c;
+color: #ffffff;
+border-color: #59609a;
+}
+
+.feed-list { display: flex; flex-direction: column; gap: 10px; }
+
+.feed-item {
+display: grid;
+grid-template-columns: 40px 1fr;
+gap: 12px;
+background: #1d1e27;
+border: 1px solid rgba(255,255,255,0.08);
+border-radius: 14px;
+padding: 12px;
+}
+
+.feed-icon {
+width: 36px;
+height: 36px;
+object-fit: contain;
+align-self: start;
+}
+
+.feed-meta {
+display: flex;
+align-items: center;
+gap: 8px;
+margin-bottom: 6px;
+}
+
+.status-pill {
+font-size: 12px;
+font-weight: 700;
+padding: 3px 8px;
+border-radius: 999px;
+text-transform: capitalize;
+}
+
+.status-pill.active { background: #3d1519; color: #ffb4b4; }
+.status-pill.clear { background: #1f2937; color: #cbd5e1; }
+
+.feed-time {
+font-size: 12px;
+color: #9ca3af;
+}
+
+.feed-title {
+margin: 0 0 5px 0;
+font-size: 16px;
+color: #ffffff;
+}
+
+.feed-description {
+margin: 0;
+font-size: 14px;
+line-height: 1.4;
+color: #9ca3af;
+}
+
+.empty-state {
+color: #9ca3af;
+font-size: 14px;
+padding: 14px;
+border: 1px dashed rgba(255,255,255,0.15);
+border-radius: 12px;
+}
+@media (max-width: 768px) {
+.hamburger-btn { display: inline-flex; }
+.top-nav-links {
+display: none;
+flex-direction: column;
+width: 100%;
+margin-top: 8px;
+padding: 10px;
+gap: 6px;
+}
+.top-nav-links.show-mobile-nav { display: flex; }
+.top-nav-links .nav-item { width: 100%; flex: initial; }
+.top-nav-links .nav-link { width: 100%; text-align: left; padding: 10px 12px; }
+}
 </style>
 </head>
 
 <body>
 
 <div class="app">
-
-<div class="header">AUGGIE<span>NETIZEN</span></div>
-
-<div class="card alert">
-<h4>Campus Safety Alert</h4>
-<p>Avoid east parking lot — police activity ongoing</p>
+<!-- top navigation (same style as map page) -->
+<div class="top-nav-wrapper">
+<button class="hamburger-btn" id="hamburgerBtn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="pills-tab">
+<span></span>
+<span></span>
+<span></span>
+</button>
+<ul class="top-nav-links" id="pills-tab" role="tablist">
+<li class="nav-item"><a class="nav-link" href="map.html">Map</a></li>
+<li class="nav-item"><a class="nav-link active" href="feed.html">Feed</a></li>
+<li class="nav-item"><a class="nav-link" href="map.html">Report</a></li>
+<li class="nav-item"><a class="nav-link" href="map.html">Alerts</a></li>
+<li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+</ul>
 </div>
 
-<div class="card">
-<h4>Suspicious person near Murphy Square Park</h4>
-<p class="small">20+ min</p>
+<!-- feed content section -->
+<div class="feed-content">
+<div class="subheader">Incident Feed</div>
+
+<!-- filter buttons -->
+<div class="filters" id="feedFilters">
+<button class="filter-btn active" data-filter="all">All</button>
+<button class="filter-btn" data-filter="suspicious_activity">Suspicious</button>
+<button class="filter-btn" data-filter="fire">Fire</button>
+<button class="filter-btn" data-filter="car_accident">Accident</button>
+<button class="filter-btn" data-filter="break_in">Break-in</button>
+<button class="filter-btn" data-filter="medical">Medical</button>
+<button class="filter-btn" data-filter="other">Other</button>
 </div>
 
-<div class="card">
-<h4>Fire alarm — Christensen Center</h4>
-<p class="small">11m</p>
+<!-- list where incidents are rendered by javascript -->
+<div class="feed-list" id="feedList">
+<div class="empty-state">Loading incidents...</div>
 </div>
-
-<div class="bottom-nav">
-<span>Map</span>
-<span class="active">Feed</span>
-<span>Report</span>
-<span>Alerts</span>
-<span>Profile</span>
 </div>
 
 </div>
 
 <script src="feed.js"></script>
+<script>
+// this toggles mobile hamburger menu
+const hamburgerBtn = document.getElementById("hamburgerBtn");
+const topNav = document.getElementById("pills-tab");
+hamburgerBtn.addEventListener("click", () => {
+const isOpen = topNav.classList.toggle("show-mobile-nav");
+hamburgerBtn.classList.toggle("active", isOpen);
+hamburgerBtn.setAttribute("aria-expanded", String(isOpen));
+});
+</script>
 </body>
 </html>
