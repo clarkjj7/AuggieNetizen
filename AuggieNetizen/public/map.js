@@ -32,72 +32,57 @@ var accidentIcon = new LeafIcon({iconUrl: 'images/accident.png'}),
 
 /* recent incident data */
 /* newest ones should show first in the bottom sheet */
-var incidents = [
-    {
-        type: "Medical",
-        location: "Near Christensen Center",
-        description: "Medical assistance requested on campus.",
-        time: "2026-04-14T11:20:00",
-        coords: [44.9670, -93.2450],
-        icon: medicalIcon
-    },
-    {
-        type: "Suspicious Activity",
-        location: "Near Urness Hall",
-        description: "Reported suspicious person in the area.",
-        time: "2026-04-14T10:45:00",
-        coords: [44.9670, -93.2440],
-        icon: suspiciousIcon
-    },
-    {
-        type: "Fire",
-        location: "Near Science Hall",
-        description: "Fire alarm incident reported.",
-        time: "2026-04-14T09:30:00",
-        coords: [44.9670, -93.2430],
-        icon: fireIcon
-    },
-    {
-        type: "Break-In",
-        location: "Near Parking Lot",
-        description: "Possible break-in reported.",
-        time: "2026-04-13T11:15:00",
-        coords: [44.9670, -93.2420],
-        icon: breakinIcon
-    },
-    {
-        type: "Accident",
-        location: "Near Foss Center",
-        description: "Vehicle accident reported nearby.",
-        time: "2026-04-13T08:10:00",
-        coords: [44.9670, -93.2410],
-        icon: accidentIcon
-    },
-    {
-        type: "Other",
-        location: "Near Old Main",
-        description: "General campus safety report submitted.",
-        time: "2026-04-12T06:50:00",
-        coords: [44.9670, -93.2460],
-        icon: otherIcon
-    }
-];
+var incidents = [];
+var markersLayer = L.layerGroup().addTo(map);
 
-/* sort incidents so the most recent incidents are first */
-incidents.sort(function(a, b) {
-    return new Date(b.time) - new Date(a.time);
-});
+function toTitleCase(value) {
+    return String(value || "")
+        .replace(/_/g, " ")
+        .replace(/\b\w/g, function(match) {
+            return match.toUpperCase();
+        });
+}
+
+function getIncidentIcon(type) {
+    var iconMap = {
+        car_accident: accidentIcon,
+        break_in: breakinIcon,
+        fire: fireIcon,
+        suspicious_activity: suspiciousIcon,
+        medical: medicalIcon,
+        other: otherIcon
+    };
+
+    return iconMap[type] || otherIcon;
+}
+
+function normalizeIncident(incident) {
+    return {
+        id: incident.id,
+        type: incident.type || "other",
+        title: incident.title || toTitleCase(incident.type || "other"),
+        description: incident.description || "No description provided.",
+        location: incident.address || "Augsburg University",
+        time: incident.created_at || new Date().toISOString(),
+        coords: [Number(incident.lat), Number(incident.lng)],
+        icon: getIncidentIcon(incident.type)
+    };
+}
 
 /* now we add the icon to the map's location */
-incidents.forEach(function(incident) {
-    L.marker(incident.coords, {icon: incident.icon})
-        .addTo(map)
-        .bindPopup(
-            "<strong>" + incident.type + "</strong><br>" +
-            incident.location + "<br>" +
-            incident.description
-        );
-});
+function renderMarkers() {
+    markersLayer.clearLayers();
+
+    incidents.forEach(function(incident) {
+        L.marker(incident.coords, {icon: incident.icon})
+            .addTo(markersLayer)
+            .bindPopup(
+                "<strong>" + incident.title + "</strong><br>" +
+                incident.location + "<br>" +
+                incident.description
+            );
+    });
+}
 
 /* render incidents inside the bottom sheet */
 function formatIncidentTime(dateString) {
@@ -115,13 +100,13 @@ function renderIncidents() {
     var incidentList = document.getElementById("incidentList");
     incidentList.innerHTML = "";
 
-    incidents.forEach(function(incident) {
+    incidents.slice(0, 5).forEach(function(incident) {
         var card = document.createElement("div");
         card.className = "incident-card";
 
         card.innerHTML = `
             <div class="incident-top">
-                <h4 class="incident-type">${incident.type}</h4>
+                <h4 class="incident-type">${incident.title}</h4>
                 <span class="incident-time">${formatIncidentTime(incident.time)}</span>
             </div>
             <p class="incident-location">${incident.location}</p>
@@ -137,11 +122,35 @@ function renderIncidents() {
     });
 }
 
-renderIncidents();
+function loadIncidents() {
+    fetch("/incidents")
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error("Could not fetch incidents");
+            }
+            return response.json();
+        })
+        .then(function(payload) {
+            var incidentRows = Array.isArray(payload.incidents) ? payload.incidents : [];
 
-// beginning of the javascript for the navigation on the button 
-let nav = document.querySelector(".nav");
-let navListItem = document.querySelectorAll(".nav__listitem");
+            incidents = incidentRows
+                .map(normalizeIncident)
+                .filter(function(incident) {
+                    return !Number.isNaN(incident.coords[0]) && !Number.isNaN(incident.coords[1]);
+                })
+                .sort(function(a, b) {
+                    return new Date(b.time) - new Date(a.time);
+                });
+
+            renderMarkers();
+            renderIncidents();
+        })
+        .catch(function(error) {
+            console.error("Error loading incidents:", error);
+        });
+}
+
+loadIncidents();
 
 //Bottom sheet js 
 var bot = document.querySelector(".nearby-sheet");

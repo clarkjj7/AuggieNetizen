@@ -22,8 +22,40 @@
 </head>
 
 <body>
+<!-- TODO: Ask afiya to cobfrm incidents stuff:
+1) incidents table has rows
+ -->
 <!-- the app framework where everything is in -->
 <div class="container">
+     <div class="top-nav-wrapper">
+          <button class="hamburger-btn" id="hamburgerBtn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="pills-tab">
+               <span></span>
+               <span></span>
+               <span></span>
+          </button>
+          <ul class="top-nav-links" id="pills-tab" role="tablist">
+               <!--The map view page-->
+               <li class="nav-item ">
+                    <a class = "nav-link active" id = "map-home-tab" data-toggle = "map" role = "tab" aria-controls = "map-home" aria-selected= "true" href ="map.html">Map</a>
+               </li>
+               <!--The feed page -->
+               <li class = "nav-item">
+                    <a class = "nav-link" id = "incident-feed-tab" data-toggle = "feed" role = "tab" aria-controls = "incident-feed" aria-selected= "true" href ="feed.html">Feed</a>
+               </li>
+               <!--The report page-->
+               <li class = "nav-item">
+                    <a class = "nav-link" id = "incident-feed-tab" data-toggle = "feed" role = "tab" aria-controls = "incident-feed" aria-selected= "true" href ="map.html">Report</a>
+               </li>
+               <!--the alerts page-->
+               <li class = "nav-item">
+                    <a class = "nav-link" id = "incident-feed-tab" data-toggle = "feed" role = "tab" aria-controls = "incident-feed" aria-selected= "true" href ="map.html">Alerts</a>
+               </li>
+               <!--The profile tab-->
+               <li class = "nav-item">
+                    <a class = "nav-link" id = "incident-feed-tab" data-toggle = "feed" role = "tab" aria-controls = "incident-feed" aria-selected= "true" href ="profile.html">Profile</a>
+               </li>
+          </ul>
+     </div>
      
      <div id="map">
           <!-- searchbar inside map-->
@@ -49,22 +81,6 @@
                <!-- incidents will be added here by javascript -->
           </div>
 
-          <nav class="nav">
-               <ul class="nav__list">
-                    <li class="nav__listitem">
-                         <i class="fas fa-home"></i>
-                    </li>
-                    <li class="nav__listitem nav__listitem-active">
-                         <i class="fas fa-heart"></i>
-                    </li>
-                    <li class="nav__listitem">
-                         <i class="fas fa-bookmark"></i>
-                    </li>
-                    <li class="nav__listitem">
-                         <i class="fas fa-cog"></i>
-                    </li>
-               </ul>
-          </nav>
      </div>
 </div>
 
@@ -77,5 +93,15 @@
      crossorigin=""></script>
 
 <script src="map.js"></script>
+<script>
+     const hamburgerBtn = document.getElementById("hamburgerBtn");
+     const topNav = document.getElementById("pills-tab");
+
+     hamburgerBtn.addEventListener("click", () => {
+          const isOpen = topNav.classList.toggle("show-mobile-nav");
+          hamburgerBtn.classList.toggle("active", isOpen);
+          hamburgerBtn.setAttribute("aria-expanded", String(isOpen));
+     });
+</script>
 </body>
 </html>
