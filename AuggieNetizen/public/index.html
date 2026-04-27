@@ -1,25 +1,170 @@
 <!--index.html(Login page)-->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Auggie Netizen</title>
-        <link rel="stylesheet" href="style.css">
-        <script src="script.js"></script>
-    </head>
-    <body>
-        <div id="login-container">
-            <h1 id="title">Auggie Netizen</h1>
-            <div id="login-form">
-                <input type="email" id="email" placeholder="username@augsburg.edu" autocomplete="email" required>
-                <input type="password" id="password" placeholder="********" required>
-                <div id="login-buttons">
-                    <button id="login-button">Login</button>
-                </div>
-                <p>Don't have an account? <button><a href="register.html">Register</a></button></p>
-                <p id="error-message"></p>
-            </div>
-        </div>
-    </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auggie Netizen</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+ 
+    /* ── reset ── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+    /* ── page background & centering ── */
+    body {
+      background: #16161C;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #44444b;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+ 
+    /* ── outer wrapper ── */
+    #login-container {
+      width: 100%;
+      max-width: 360px;
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+ 
+    /* ── app title ── */
+    #title {
+      font-size: 26px;
+      letter-spacing: 0.5px;
+      color: #e2e2ff;
+    }
+ 
+    /* maroon accent on "Netizen" */
+    #title span { color: #fca5a5; }
+ 
+    /* ── login card ── */
+    #login-form {
+      width: 100%;
+      background: #1E1E26;
+      border: 1px solid rgba(226, 226, 255, 0.08);
+      border-radius: 16px;
+      padding: 24px 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+ 
+    /* ── text inputs ── */
+    #login-form input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(226, 226, 255, 0.15);
+      background: #16161C;
+      color: #e2e2ff;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+ 
+    /* dim placeholder text */
+    #login-form input::placeholder { color: #9d9dad; }
+ 
+    /* maroon glow on focus to match theme */
+    #login-form input:focus {
+      border-color: rgba(136, 19, 19, 0.6);
+    }
+ 
+    /* ── button row ── */
+    #login-buttons { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+ 
+    /* ── login button — maroon bg, white text, matches profile/incident card style ── */
+    #login-button {
+      width: 100%;
+      padding: 11px;
+      border-radius: 10px;
+      border: 1px solid rgba(136, 19, 19, 0.5);
+      background: rgba(136, 19, 19, 0.35);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+ 
+    /* slightly brighter on hover */
+    #login-button:hover {
+      background: rgba(136, 19, 19, 0.55);
+      border-color: rgba(136, 19, 19, 0.75);
+    }
+ 
+    /* ── register prompt text ── */
+    #login-form p {
+      text-align: center;
+      color: #9d9dad;
+      font-size: 13px;
+    }
+ 
+    /* strip default button styles from the register wrapper */
+    #login-form p button {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+ 
+    /* maroon register link */
+    #login-form p button a {
+      color: #fca5a5;
+      text-decoration: none;
+      font-size: 13px;
+    }
+ 
+    #login-form p button a:hover { text-decoration: underline; }
+ 
+    /* ── error message shown by script.js ── */
+    #error-message {
+      color: #fca5a5;
+      font-size: 12px;
+      text-align: center;
+      min-height: 16px;
+    }
+ 
+  </style>
+  <script src="script.js"></script>
+</head>
+<body>
+ 
+  <!-- outer centering wrapper -->
+  <div id="login-container">
+ 
+    <!-- app title -->
+    <h1 id="title">Auggie <span>Netizen</span></h1>
+ 
+    <!-- login card -->
+    <div id="login-form">
+ 
+      <!-- email input -->
+      <input type="email" id="email" placeholder="username@augsburg.edu" autocomplete="email" required>
+ 
+      <!-- password input -->
+      <input type="password" id="password" placeholder="********" required>
+ 
+      <!-- login button -->
+      <div id="login-buttons">
+        <button id="login-button">Login</button>
+      </div>
+ 
+      <!-- register redirect -->
+      <p>Don't have an account? <button><a href="register.html">Register</a></button></p>
+ 
+      <!-- error message populated by script.js -->
+      <p id="error-message"></p>
+ 
+    </div>
+  </div>
+ 
+</body>
 </html>

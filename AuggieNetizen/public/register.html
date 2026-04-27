@@ -1,25 +1,170 @@
 <!-- register.html(Register page)-->
+<!-- register.html (Register page) -->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Auggie Netizen</title>
-        <link rel="stylesheet" href="style.css">
-        <script src="script.js"></script>
-    </head>
-    <body>
-        <div id="register-container">
-            <h1 id="title">Auggie Netizen</h1>
-            <div id="register-form">
-                <input type="email" id="email" placeholder="username@augsburg.edu" required>
-                <input type="password" id="password" placeholder="********" required>
-                <div id="register-buttons">
-                    <button id="register-button">Register</button>
-                </div>
-                <p>Already have an account? <button><a href="index.html">Login</a></button></p>
-                <p id="error-message"></p>
-            </div>
-        </div>
-    </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auggie Netizen</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+
+    /* ── reset ── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── page background & centering ── */
+    body {
+      background: #16161C;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #3a3a42;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── outer wrapper ── */
+    #register-container {
+      width: 100%;
+      max-width: 360px;
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+
+    /* ── app title ── */
+    #title {
+      font-size: 26px;
+      letter-spacing: 0.5px;
+      color: #e2e2ff;
+    }
+
+    /* maroon accent on "Netizen" */
+    #title span { color: #fca5a5; }
+
+    /* ── register card ── */
+    #register-form {
+      width: 100%;
+      background: #1E1E26;
+      border: 1px solid rgba(226, 226, 255, 0.08);
+      border-radius: 16px;
+      padding: 24px 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* ── text inputs ── */
+    #register-form input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(226, 226, 255, 0.15);
+      background: #16161C;
+      color: #e2e2ff;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    /* dim placeholder text */
+    #register-form input::placeholder { color: #9d9dad; }
+
+    /* maroon glow on focus */
+    #register-form input:focus {
+      border-color: rgba(136, 19, 19, 0.6);
+    }
+
+    /* ── button row ── */
+    #register-buttons { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+
+    /* ── register button ── */
+    #register-button {
+      width: 100%;
+      padding: 11px;
+      border-radius: 10px;
+      border: 1px solid rgba(136, 19, 19, 0.5);
+      background: rgba(136, 19, 19, 0.35);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    #register-button:hover {
+      background: rgba(136, 19, 19, 0.55);
+      border-color: rgba(136, 19, 19, 0.75);
+    }
+
+    /* ── login prompt text ── */
+    #register-form p {
+      text-align: center;
+      color: #9d9dad;
+      font-size: 13px;
+    }
+
+    /* strip default button styles from the login wrapper */
+    #register-form p button {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    /* maroon login link */
+    #register-form p button a {
+      color: #fca5a5;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    #register-form p button a:hover { text-decoration: underline; }
+
+    /* ── error message ── */
+    #error-message {
+      color: #fca5a5;
+      font-size: 12px;
+      text-align: center;
+      min-height: 16px;
+    }
+
+  </style>
+  <script src="script.js"></script>
+</head>
+<body>
+
+  <!-- outer centering wrapper -->
+  <div id="register-container">
+
+    <!-- app title -->
+    <h1 id="title">Auggie <span>Netizen</span></h1>
+
+    <!-- register card -->
+    <div id="register-form">
+
+      <!-- email input -->
+      <input type="email" id="email" placeholder="username@augsburg.edu" autocomplete="email" required>
+
+      <!-- password input -->
+      <input type="password" id="password" placeholder="********" required>
+
+      <!-- register button -->
+      <div id="register-buttons">
+        <button id="register-button">Register</button>
+      </div>
+
+      <!-- login redirect -->
+      <p>Already have an account? <button><a href="index.html">Login</a></button></p>
+
+      <!-- error message populated by script.js -->
+      <p id="error-message"></p>
+
+    </div>
+  </div>
+
+</body>
 </html>
