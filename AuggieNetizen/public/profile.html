@@ -1,228 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Profile</title>
-<!-- temp styles -->
-<style>
-.edit-btn{
-background:#2a2d35;
-border:none;
-color:white;
-padding:6px 10px;
-border-radius:10px;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
 
-.badge{
-padding:3px 8px;
-border-radius:8px;
-font-size:12px;
-margin-right:5px;
-}
+  <style>
 
-.yellow{background:#ffb400;}
-.blue{background:#3b82f6;}
-.red{background:#b91c1c;}
+    /* ── base: matches feed.html body exactly ── */
+    body { margin: 0; background: #16161C; color: white; font-family: Arial, Helvetica, sans-serif; }
 
-.green{
-color:#22c55e;
-}
-    body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:#0f1115;
-    color:white;
-    }
-    
-    .app{
-    max-width:400px;
-    margin:auto;
-    padding:20px;
-    }
-    
-    /* HEADER */
-    .header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-    }
-    
-    .header span{
-    color:orange;
-    }
-    
-    /* PROFILE CARD */
-    .profile-card{
-    display:flex;
-    background: grey;
-    padding:15px;
-    border-radius:15px;
-    margin-bottom:15px;
-    }
-    
-    .avatar{
-    width:60px;
-    height:60px;
-    border-radius:50%;
-    background: grey;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:bold;
-    }
-    
-    .profile-right{
-    margin-left:15px;
-    }
-    
-    /* STATS */
-    .stats{
-    display:flex;
-    justify-content:space-around;
-    background:#1a1d24;
-    padding:10px;
-    border-radius:15px;
-    margin-bottom:15px;
-    text-align:center;
-    }
-    
-    /* TABS */
-    .tabs{
-    display:flex;
-    justify-content:space-around;
-    margin-bottom:10px;
-    }
-    
-    .tabs .active{
-    color:orange;
-    border-bottom:2px solid orange;
-    }
-    
-    /* MESSAGES */
-    .message{
-    display:flex;
-    align-items:center;
-    padding:10px 0;
-    border-bottom:1px solid #222;
-    }
-    
-    .icon{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    margin-right:10px;
-    }
-    
-    .text{
-    flex:1;
-    }
-    
-    .time{
-    color:#888;
-    font-size:12px;
-    }
-    
-    /* BOTTOM NAV */
-    .bottom-nav{
-    display:flex;
-    justify-content:space-around;
-    padding:10px 0;
-    margin-top:20px;
-    border-top:1px solid #222;
-    }
-    
-    .bottom-nav .active{
-    color:orange;
-    }
-    
-    </style>
-<!-- end temp styles -->
+    /* ── app wrapper: full width, no padding, matches feed ── */
+    .app { width: 100%; margin: 0; padding: 0; }
 
-<link rel="stylesheet" href="style.css">
+    /* ── top nav wrapper: same margin as feed ── */
+    .top-nav-wrapper {
+      position: relative;
+      margin: 14px 14px 0 14px;
+      z-index: 1200;
+    }
+
+    /* ── nav pill bar: same style as feed ── */
+    .top-nav-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+      padding: 10px 12px;
+      background: rgba(22, 22, 28, 0.97);
+      border: 1px solid rgba(226, 226, 255, 0.1);
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+      list-style: none;
+    }
+
+    /* ── each nav item takes equal space ── */
+    .top-nav-links .nav-item { display: flex; flex: 1; min-width: 0; }
+
+    /* ── nav link default state ── */
+    .top-nav-links .nav-link {
+      color: #e2e2ff;
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 14px;
+      text-align: center;
+      width: 100%;
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+
+    /* ── nav link hover ── */
+    .top-nav-links .nav-link:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    /* ── active nav link: matches feed's purple highlight ── */
+    .top-nav-links .nav-link.active {
+      background: rgba(122, 122, 255, 0.22);
+      border-color: rgba(180, 180, 255, 0.35);
+      color: #ffffff;
+    }
+
+    /* ── hamburger button (hidden on desktop, shown on mobile) ── */
+    .hamburger-btn {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(226, 226, 255, 0.2);
+      border-radius: 10px;
+      background: #16161C;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    /* ── hamburger lines ── */
+    .hamburger-btn span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: #e2e2ff;
+      transition: 0.2s ease;
+    }
+
+    /* ── hamburger animates into X when open ── */
+    .hamburger-btn.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger-btn.active span:nth-child(2) { opacity: 0; }
+    .hamburger-btn.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    /* ── profile content area: centered with max width like feed-content ── */
+    .profile-content {
+      padding: 16px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* ── page title row with edit button ── */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    /* ── "MY PROFILE" heading: matches feed subheader style ── */
+    .header h1 {
+      color: #9ca3af;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    /* ── maroon accent on "PROFILE" word ── */
+    .header h1 span { color: #fca5a5; }
+
+    /* ── edit button: maroon to match the page theme ── */
+    .edit-btn {
+      background: rgba(136, 19, 19, 0.25);
+      border: 1px solid rgba(136, 19, 19, 0.5);
+      color: #fca5a5;
+      padding: 6px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .edit-btn:hover { background: rgba(136, 19, 19, 0.4); }
+
+    /* ── profile info card: same card style as feed-item ── */
+    .profile-card {
+      display: flex;
+      align-items: center;
+      background: #1d1e27;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    /* ── avatar circle: maroon tint ── */
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #3d1519;
+      border: 1px solid rgba(185, 28, 28, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #ffb4b4;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    /* ── text next to avatar ── */
+    .profile-right { margin-left: 14px; }
+
+    .profile-right h2 { font-size: 16px; color: #ffffff; margin-bottom: 2px; }
+    .profile-right p  { color: #9ca3af; font-size: 13px; margin-bottom: 7px; }
+
+    /* ── badge pills ── */
+    .badge {
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-right: 5px;
+    }
+
+    /* maroon badge matches status-pill.active from feed ── */
+    .maroon { background: #3d1519; color: #ffb4b4; }
+
+    /* blue badge for verified ── */
+    .blue { background: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid rgba(59,130,246,0.35); }
+
+    /* ── stats bar: same card style ── */
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      background: #1d1e27;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 12px 10px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .stats h3 { font-size: 20px; color: #ffffff; margin-bottom: 2px; }
+    .stats p  { color: #9ca3af; font-size: 12px; margin: 0; }
+
+    /* ── green for accuracy stat ── */
+    .green { color: #22c55e !important; }
+
+    /* ── tabs row: activity / messages / saved ── */
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+
+    .tabs span {
+      color: #9ca3af;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 4px 10px;
+      transition: 0.2s ease;
+    }
+
+    .tabs span:hover { color: #ffffff; }
+
+    /* ── active tab: maroon underline ── */
+    .tabs .active {
+      color: #fca5a5;
+      border-bottom: 2px solid #881313;
+    }
+
+    /* ── message list container ── */
+    .messages { display: flex; flex-direction: column; gap: 10px; }
+
+    /* ── each message row: same card style as feed-item ── */
+    .message {
+      display: grid;
+      grid-template-columns: 40px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      background: #1d1e27;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 12px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .message:hover { transform: translateY(-1px); }
+
+    /* ── icon circle for sender initials ── */
+    .icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* ── red icon: matches status-pill.active ── */
+    .icon.red  { background: #3d1519; color: #ffb4b4; }
+
+    /* ── blue icon: for regular users ── */
+    .icon.blue { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+
+    /* ── message text block ── */
+    .text h4 { font-size: 15px; color: #ffffff; margin: 0 0 4px 0; }
+    .text p  { font-size: 13px; color: #9ca3af; margin: 0; line-height: 1.4; }
+
+    /* ── timestamp ── */
+    .time { font-size: 12px; color: #9ca3af; white-space: nowrap; }
+
+    /* ── mobile: show hamburger, stack nav vertically ── */
+    @media (max-width: 768px) {
+      .hamburger-btn { display: inline-flex; }
+      .top-nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 8px;
+        padding: 10px;
+        gap: 6px;
+      }
+      .top-nav-links.show-mobile-nav { display: flex; }
+      .top-nav-links .nav-item { width: 100%; flex: initial; }
+      .top-nav-links .nav-link { width: 100%; text-align: left; padding: 10px 12px; }
+    }
+
+  </style>
 </head>
-
 <body>
 
 <div class="app">
 
-    <!-- HEADER -->
+  <!-- top navigation: same structure as feed.html -->
+  <div class="top-nav-wrapper">
+    <button class="hamburger-btn" id="hamburgerBtn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="pills-tab">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="top-nav-links" id="pills-tab" role="tablist">
+      <li class="nav-item"><a class="nav-link" href="map.html">Map</a></li>
+      <li class="nav-item"><a class="nav-link" href="feed.html">Feed</a></li>
+      <li class="nav-item"><a class="nav-link" href="report.html">Report</a></li>
+      <li class="nav-item"><a class="nav-link" href="map.html">Alerts</a></li>
+      <li class="nav-item"><a class="nav-link active" href="profile.html">Profile</a></li>
+    </ul>
+  </div>
+
+  <!-- profile content: same padding/max-width as feed-content -->
+  <div class="profile-content">
+
+    <!-- page heading row -->
     <div class="header">
-        <h1>MY<span>PROFILE</span></h1>
-        <button class="edit-btn" id="edit-btn">Edit</button>
+      <h1>MY <span>PROFILE</span></h1>
+      <button class="edit-btn" id="edit-btn">Edit</button>
     </div>
 
-    <!-- PROFILE CARD -->
+    <!-- user info card -->
     <div class="profile-card">
-
-        <div class="profile-left">
-            <div class="avatar">AK</div>
+      <div class="avatar">AK</div>
+      <div class="profile-right">
+        <h2>Alex Kim</h2>
+        <p>@alex_auggie</p>
+        <div class="badges">
+          <span class="badge maroon">AUGGIE</span>
+          <span class="badge blue">VERIFIED</span>
         </div>
-
-        <div class="profile-right">
-            <h2>Alex Kim</h2>
-            <p>@alex_auggie</p>
-
-            <div class="badges">
-                <span class="badge yellow">AUGGIE</span>
-                <span class="badge blue">VERIFIED</span>
-            </div>
-        </div>
-
+      </div>
     </div>
 
-    <!-- STATS -->
+    <!-- stats: reports, points, accuracy -->
     <div class="stats">
-        <div><h3>24</h3><p>Reports</p></div>
-        <div><h3>312</h3><p>Points</p></div>
-        <div><h3 class="green">98%</h3><p>Accuracy</p></div>
+      <div><h3>24</h3><p>Reports</p></div>
+      <div><h3>312</h3><p>Points</p></div>
+      <div><h3 class="green">98%</h3><p>Accuracy</p></div>
     </div>
 
-    <!-- TABS -->
+    <!-- tab switcher: controlled by profile.js -->
     <div class="tabs">
-        <span id="activity-tab">Activity</span>
-        <span id="messages-tab" class="active">Messages</span>
-        <span id="saved-tab">Saved</span>
+      <span id="activity-tab">Activity</span>
+      <span id="messages-tab" class="active">Messages</span>
+      <span id="saved-tab">Saved</span>
     </div>
 
-    <!-- MESSAGES -->
+    <!-- message list: populated by profile.js renderData() -->
     <div class="messages" id="messages-container">
-
-        <div class="message">
-            <div class="icon red">CP</div>
-            <div class="text">
-                <h4>Campus Police</h4>
-                <p>Thanks for the quick report earlier...</p>
-            </div>
-            <span class="time">2m</span>
+      <div class="message">
+        <div class="icon red">CP</div>
+        <div class="text">
+          <h4>Campus Police</h4>
+          <p>Thanks for the quick report earlier...</p>
         </div>
-
-        <div class="message">
-            <div class="icon blue">MJ</div>
-            <div class="text">
-                <h4>mjohnson</h4>
-                <p>Did you see what happened near the library?</p>
-            </div>
-            <span class="time">14m</span>
+        <span class="time">2m</span>
+      </div>
+      <div class="message">
+        <div class="icon blue">MJ</div>
+        <div class="text">
+          <h4>mjohnson</h4>
+          <p>Did you see what happened near the library?</p>
         </div>
-
+        <span class="time">14m</span>
+      </div>
     </div>
 
-    <div class="bottom-nav">
-        <span id="nav-map">Map</span>
-        <span id="nav-feed">Feed</span>
-        <span id="nav-report">Report</span>
-        <span id="nav-alerts">Alerts</span>
-        <span id="nav-profile" class="active">Profile</span>
-    </div>
-
+  </div>
 </div>
 
+<!-- profile tab switching + edit button logic -->
 <script src="profile.js"></script>
+
+<!-- hamburger toggle: same script as feed.html -->
+<script>
+  const hamburgerBtn = document.getElementById("hamburgerBtn");
+  const topNav = document.getElementById("pills-tab");
+  hamburgerBtn.addEventListener("click", () => {
+    const isOpen = topNav.classList.toggle("show-mobile-nav");
+    hamburgerBtn.classList.toggle("active", isOpen);
+    hamburgerBtn.setAttribute("aria-expanded", String(isOpen));
+  });
+</script>
 
 </body>
 </html>

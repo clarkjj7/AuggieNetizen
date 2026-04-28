@@ -96,27 +96,6 @@ editBtn.addEventListener("click", () => {
 });
 
 
-// ===== NAVIGATION (BOTTOM BAR) =====
-document.getElementById("nav-feed").addEventListener("click", () => {
-    window.location.href = "feed.html";
-});
-
-document.getElementById("nav-report").addEventListener("click", () => {
-    window.location.href = "report.html";
-});
-
-document.getElementById("nav-profile").addEventListener("click", () => {
-    window.location.href = "profile.html";
-});
-
-document.getElementById("nav-map").addEventListener("click", () => {
-    alert("Map page coming soon");
-});
-
-document.getElementById("nav-alerts").addEventListener("click", () => {
-    alert("Alerts page coming soon");
-});
-
 
 // ===== LOAD DEFAULT =====
 renderData(messagesData);
