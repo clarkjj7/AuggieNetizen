@@ -1,28 +1,25 @@
-Report · HTML
-Copy
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Report</title>
- 
+
   <style>
- 
+
     /* ── base: matches profile/feed body exactly ── */
     body { margin: 0; background: #16161C; color: white; font-family: Arial, Helvetica, sans-serif; }
- 
+
     /* ── app wrapper: full width, no padding ── */
     .app { width: 100%; margin: 0; padding: 0; }
- 
+
     /* ── top nav wrapper: same margin as profile/feed ── */
     .top-nav-wrapper {
       position: relative;
       margin: 14px 14px 0 14px;
       z-index: 1200;
     }
- 
+
     /* ── nav pill bar: same style as profile/feed ── */
     .top-nav-links {
       display: flex;
@@ -37,10 +34,10 @@ Copy
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
       list-style: none;
     }
- 
+
     /* ── each nav item takes equal space ── */
     .top-nav-links .nav-item { display: flex; flex: 1; min-width: 0; }
- 
+
     /* ── nav link default state ── */
     .top-nav-links .nav-link {
       color: #e2e2ff;
@@ -52,20 +49,20 @@ Copy
       border: 1px solid transparent;
       text-decoration: none;
     }
- 
+
     /* ── nav link hover ── */
     .top-nav-links .nav-link:hover {
       background: rgba(255, 255, 255, 0.08);
       border-color: rgba(255, 255, 255, 0.12);
     }
- 
+
     /* ── active nav link: purple highlight matching profile/feed ── */
     .top-nav-links .nav-link.active {
       background: rgba(122, 122, 255, 0.22);
       border-color: rgba(180, 180, 255, 0.35);
       color: #ffffff;
     }
- 
+
     /* ── hamburger button (hidden on desktop, shown on mobile) ── */
     .hamburger-btn {
       display: none;
@@ -81,7 +78,7 @@ Copy
       cursor: pointer;
       padding: 0;
     }
- 
+
     /* ── hamburger lines ── */
     .hamburger-btn span {
       display: block;
@@ -90,19 +87,19 @@ Copy
       background: #e2e2ff;
       transition: 0.2s ease;
     }
- 
+
     /* ── hamburger animates into X when open ── */
     .hamburger-btn.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
     .hamburger-btn.active span:nth-child(2) { opacity: 0; }
     .hamburger-btn.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
- 
+
     /* ── report content area: same padding/max-width as profile ── */
     .report-content {
       padding: 16px;
       max-width: 720px;
       margin: 0 auto;
     }
- 
+
     /* ── page heading: matches profile subheader style ── */
     .report-content h2 {
       color: #9ca3af;
@@ -110,7 +107,7 @@ Copy
       font-weight: 700;
       margin-bottom: 16px;
     }
- 
+
     /* ── section label above each group ── */
     .section-label {
       color: #9ca3af;
@@ -120,7 +117,7 @@ Copy
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
- 
+
     /* ── incident type options row ── */
     .options {
       display: flex;
@@ -128,7 +125,7 @@ Copy
       gap: 8px;
       margin-bottom: 14px;
     }
- 
+
     /* ── each type pill: matches feed filter-btn style ── */
     .option {
       background: #22232c;
@@ -141,19 +138,19 @@ Copy
       transition: 0.2s ease;
       white-space: nowrap;
     }
- 
-    /* ── selected option: matches feed filter-btn.active ── */
-    .option.active {
+
+    /* ── selected option: report.js adds/removes .selected class ── */
+    .option.selected {
       background: #3d1519;
       color: #ffb4b4;
       border-color: rgba(185, 28, 28, 0.5);
     }
- 
+
     .option:hover {
       background: #2a2b36;
       color: #ffffff;
     }
- 
+
     /* ── description card: same card style as profile cards ── */
     .description-card {
       background: #1d1e27;
@@ -161,8 +158,33 @@ Copy
       border-radius: 14px;
       padding: 12px;
       margin-bottom: 14px;
+
+    /* ── title input inside card ── */
+    .description-card input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: #e2e2ff;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 14px;
+      outline: none;
     }
- 
+    .description-card input::placeholder { color: #9ca3af; }
+
+    /* ── severity dropdown inside card ── */
+    .description-card select {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: #e2e2ff;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 14px;
+      outline: none;
+      cursor: pointer;
+    }
+    .description-card select option { background: #1d1e27; }
+    }
+
     /* ── textarea inside the card ── */
     .description-card textarea {
       width: 100%;
@@ -176,9 +198,9 @@ Copy
       outline: none;
       min-height: 100px;
     }
- 
+
     .description-card textarea::placeholder { color: #9ca3af; }
- 
+
     /* ── location card: same card style ── */
     .location-card {
       background: #1d1e27;
@@ -190,7 +212,7 @@ Copy
       align-items: center;
       gap: 10px;
     }
- 
+
     .location-card input {
       background: transparent;
       border: none;
@@ -200,9 +222,9 @@ Copy
       outline: none;
       flex: 1;
     }
- 
+
     .location-card input::placeholder { color: #9ca3af; }
- 
+
     /* ── location icon dot ── */
     .location-dot {
       width: 10px;
@@ -211,7 +233,7 @@ Copy
       background: #ffb4b4;
       flex-shrink: 0;
     }
- 
+
     /* ── submit button: maroon, matches edit-btn style ── */
     #submit {
       width: 100%;
@@ -227,9 +249,9 @@ Copy
       transition: background 0.2s ease;
       letter-spacing: 0.5px;
     }
- 
+
     #submit:hover { background: rgba(136, 19, 19, 0.55); }
- 
+
     /* ── mobile: show hamburger, stack nav vertically ── */
     @media (max-width: 768px) {
       .hamburger-btn { display: inline-flex; }
@@ -245,13 +267,13 @@ Copy
       .top-nav-links .nav-item { width: 100%; flex: initial; }
       .top-nav-links .nav-link { width: 100%; text-align: left; padding: 10px 12px; }
     }
- 
+
   </style>
 </head>
 <body>
- 
+
 <div class="app">
- 
+
   <!-- top navigation: same structure as profile/feed -->
   <div class="top-nav-wrapper">
     <button class="hamburger-btn" id="hamburgerBtn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="pills-tab">
@@ -267,53 +289,62 @@ Copy
       <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
     </ul>
   </div>
- 
+
   <!-- report form: same padding and max-width as profile-content -->
   <div class="report-content">
- 
+
     <!-- page heading: matches profile's "MY PROFILE" subheader style -->
     <h2>REPORT INCIDENT</h2>
- 
+
     <!-- SECTION: incident type -->
-    <!-- clicking a pill highlights it maroon and deselects the others -->
-    <!-- "Suspicious" is selected by default with the .active class -->
+    <!-- report.js looks for .option.selected and reads data-type to get the value -->
+    <!-- "Suspicious" is selected by default -->
     <div class="section-label">Type of Incident</div>
     <div class="options">
-      <span class="option active">Suspicious</span> <!-- default selected -->
-      <span class="option">Fire</span>
-      <span class="option">Medical</span>
-      <span class="option">Accident</span>
-      <span class="option">Break-in</span>
-      <span class="option">Other</span>
+      <span class="option selected" data-type="suspicious_activity">Suspicious</span>
+      <span class="option" data-type="fire">Fire</span>
+      <span class="option" data-type="medical">Medical</span>
+      <span class="option" data-type="car_accident">Accident</span>
+      <span class="option" data-type="break_in">Break-in</span>
+      <span class="option" data-type="other">Other</span>
     </div>
- 
+
+    <!-- SECTION: title -->
+    <!-- report.js reads id="title" — required field -->
+    <div class="section-label">Title</div>
+    <div class="description-card">
+      <input type="text" id="title" placeholder="Short title for the incident...">
+    </div>
+
     <!-- SECTION: description -->
-    <!-- wrapped in a card div so it matches the profile/feed card style -->
+    <!-- report.js reads id="description" — optional but useful -->
     <!-- textarea is transparent so the card background shows through -->
     <div class="section-label">Description</div>
     <div class="description-card">
-      <textarea placeholder="Describe what you see..."></textarea>
+      <textarea id="description" placeholder="Describe what you see..."></textarea>
     </div>
- 
-    <!-- SECTION: location -->
-    <!-- small maroon dot acts as a location pin icon -->
-    <!-- report.js can hook into this input to grab GPS coordinates -->
-    <div class="section-label">Location</div>
-    <div class="location-card">
-      <div class="location-dot"></div> <!-- location pin indicator -->
-      <input type="text" placeholder="Enter location or use current...">
+
+    <!-- SECTION: severity -->
+    <!-- report.js reads id="severity" as a dropdown value -->
+    <div class="section-label">Severity</div>
+    <div class="description-card">
+      <select id="severity">
+        <option value="low">Low</option>
+        <option value="medium" selected>Medium</option>
+        <option value="high">High</option>
+      </select>
     </div>
- 
+
     <!-- SECTION: submit button -->
     <!-- id="submit" is what report.js listens to for the click event -->
     <div id="submit">SUBMIT REPORT</div>
- 
+
   </div>
 </div>
- 
+
 <!-- loads report.js which handles the submit button click -->
 <script src="report.js"></script>
- 
+
 <!-- hamburger + option toggle: inline since it's short and page-specific -->
 <script>
   // opens/closes the mobile nav when hamburger is clicked
@@ -324,7 +355,7 @@ Copy
     hamburgerBtn.classList.toggle("active", isOpen);
     hamburgerBtn.setAttribute("aria-expanded", String(isOpen));
   });
- 
+
   // makes incident type pills work as a single-select group
   // removes .active from all, then adds it to the one that was clicked
   document.querySelectorAll(".option").forEach(btn => {
@@ -334,6 +365,6 @@ Copy
     });
   });
 </script>
- 
+
 </body>
 </html>
