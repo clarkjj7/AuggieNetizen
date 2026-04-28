@@ -158,6 +158,7 @@
       border-radius: 14px;
       padding: 12px;
       margin-bottom: 14px;
+    }
 
     /* ── title input inside card ── */
     .description-card input {
@@ -169,6 +170,7 @@
       font-size: 14px;
       outline: none;
     }
+
     .description-card input::placeholder { color: #9ca3af; }
 
     /* ── severity dropdown inside card ── */
@@ -182,8 +184,8 @@
       outline: none;
       cursor: pointer;
     }
+
     .description-card select option { background: #1d1e27; }
-    }
 
     /* ── textarea inside the card ── */
     .description-card textarea {
@@ -290,15 +292,12 @@
     </ul>
   </div>
 
-  <!-- report form: same padding and max-width as profile-content -->
+  <!-- report form -->
   <div class="report-content">
 
-    <!-- page heading: matches profile's "MY PROFILE" subheader style -->
     <h2>REPORT INCIDENT</h2>
 
-    <!-- SECTION: incident type -->
-    <!-- report.js looks for .option.selected and reads data-type to get the value -->
-    <!-- "Suspicious" is selected by default -->
+    <!-- incident type pills — report.js reads .option.selected's data-type -->
     <div class="section-label">Type of Incident</div>
     <div class="options">
       <span class="option selected" data-type="suspicious_activity">Suspicious</span>
@@ -309,23 +308,19 @@
       <span class="option" data-type="other">Other</span>
     </div>
 
-    <!-- SECTION: title -->
-    <!-- report.js reads id="title" — required field -->
+    <!-- title — report.js reads id="title" (required) -->
     <div class="section-label">Title</div>
     <div class="description-card">
       <input type="text" id="title" placeholder="Short title for the incident...">
     </div>
 
-    <!-- SECTION: description -->
-    <!-- report.js reads id="description" — optional but useful -->
-    <!-- textarea is transparent so the card background shows through -->
+    <!-- description — report.js reads id="description" (optional) -->
     <div class="section-label">Description</div>
     <div class="description-card">
       <textarea id="description" placeholder="Describe what you see..."></textarea>
     </div>
 
-    <!-- SECTION: severity -->
-    <!-- report.js reads id="severity" as a dropdown value -->
+    <!-- severity — report.js reads id="severity" dropdown value -->
     <div class="section-label">Severity</div>
     <div class="description-card">
       <select id="severity">
@@ -335,34 +330,23 @@
       </select>
     </div>
 
-    <!-- SECTION: submit button -->
-    <!-- id="submit" is what report.js listens to for the click event -->
+    <!-- submit — report.js listens for click on id="submit" -->
     <div id="submit">SUBMIT REPORT</div>
 
   </div>
 </div>
 
-<!-- loads report.js which handles the submit button click -->
-<script src="report.js"></script>
+<!--  -->
+<script type="module" src="report.js"></script>
 
-<!-- hamburger + option toggle: inline since it's short and page-specific -->
+<!-- hamburger  -->
 <script>
-  // opens/closes the mobile nav when hamburger is clicked
   const hamburgerBtn = document.getElementById("hamburgerBtn");
   const topNav = document.getElementById("pills-tab");
   hamburgerBtn.addEventListener("click", () => {
     const isOpen = topNav.classList.toggle("show-mobile-nav");
     hamburgerBtn.classList.toggle("active", isOpen);
     hamburgerBtn.setAttribute("aria-expanded", String(isOpen));
-  });
-
-  // makes incident type pills work as a single-select group
-  // removes .active from all, then adds it to the one that was clicked
-  document.querySelectorAll(".option").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".option").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-    });
   });
 </script>
 
