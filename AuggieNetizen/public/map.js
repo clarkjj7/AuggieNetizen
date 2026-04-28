@@ -1,3 +1,6 @@
+//the supabase server
+
+
 /* created the map  from leaflet https://leafletjs.com/examples/quick-start/ */
 /* different types of tile layers maps here: https://leaflet-extras.github.io/leaflet-providers/preview/ */
 
