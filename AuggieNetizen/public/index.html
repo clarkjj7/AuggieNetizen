@@ -1,4 +1,3 @@
-<!--index.html(Login page)-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Auggie Netizen</title>
   <link rel="stylesheet" href="style.css">
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
- 
-    /* ── reset ── */
     * { box-sizing: border-box; margin: 0; padding: 0; }
- 
-    /* ── page background & centering ── */
     body {
       background: #16161C;
       font-family: Arial, Helvetica, sans-serif;
@@ -21,8 +20,6 @@
       align-items: center;
       justify-content: center;
     }
- 
-    /* ── outer wrapper ── */
     #login-container {
       width: 100%;
       max-width: 360px;
@@ -32,18 +29,8 @@
       align-items: center;
       gap: 28px;
     }
- 
-    /* ── app title ── */
-    #title {
-      font-size: 26px;
-      letter-spacing: 0.5px;
-      color: #e2e2ff;
-    }
- 
-    /* maroon accent on "Netizen" */
+    #title { font-size: 26px; letter-spacing: 0.5px; color: #e2e2ff; }
     #title span { color: #fca5a5; }
- 
-    /* ── login card ── */
     #login-form {
       width: 100%;
       background: #1E1E26;
@@ -55,32 +42,20 @@
       flex-direction: column;
       gap: 12px;
     }
- 
-    /* ── text inputs ── */
     #login-form input {
       width: 100%;
       padding: 10px 14px;
       border-radius: 10px;
       border: 1px solid rgba(226, 226, 255, 0.15);
       background: #16161C;
-      color: #e2e2ff;
+      color: #8e8e9f;
       font-size: 14px;
       outline: none;
       transition: border-color 0.2s ease;
     }
- 
-    /* dim placeholder text */
     #login-form input::placeholder { color: #9d9dad; }
- 
-    /* maroon glow on focus to match theme */
-    #login-form input:focus {
-      border-color: rgba(136, 19, 19, 0.6);
-    }
- 
-    /* ── button row ── */
+    #login-form input:focus { border-color: rgba(136, 19, 19, 0.6); }
     #login-buttons { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
- 
-    /* ── login button — maroon bg, white text, matches profile/incident card style ── */
     #login-button {
       width: 100%;
       padding: 11px;
@@ -93,78 +68,69 @@
       cursor: pointer;
       transition: background 0.2s ease, border-color 0.2s ease;
     }
- 
-    /* slightly brighter on hover */
-    #login-button:hover {
-      background: rgba(136, 19, 19, 0.55);
-      border-color: rgba(136, 19, 19, 0.75);
-    }
- 
-    /* ── register prompt text ── */
-    #login-form p {
-      text-align: center;
-      color: #9d9dad;
-      font-size: 13px;
-    }
- 
-    /* strip default button styles from the register wrapper */
-    #login-form p button {
-      background: none;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-    }
- 
-    /* maroon register link */
-    #login-form p button a {
-      color: #fca5a5;
-      text-decoration: none;
-      font-size: 13px;
-    }
- 
+    #login-button:hover { background: rgba(136, 19, 19, 0.55); border-color: rgba(136, 19, 19, 0.75); }
+    #login-button:disabled { opacity: 0.5; cursor: not-allowed; }
+    #login-form p { text-align: center; color: #9d9dad; font-size: 13px; }
+    #login-form p button { background: none; border: none; padding: 0; cursor: pointer; }
+    #login-form p button a { color: #fca5a5; text-decoration: none; font-size: 13px; }
     #login-form p button a:hover { text-decoration: underline; }
- 
-    /* ── error message shown by script.js ── */
-    #error-message {
-      color: #fca5a5;
-      font-size: 12px;
-      text-align: center;
-      min-height: 16px;
-    }
- 
+    #error-message { color: #fca5a5; font-size: 12px; text-align: center; min-height: 16px; }
   </style>
-  <script src="script.js"></script>
 </head>
 <body>
- 
-  <!-- outer centering wrapper -->
+
   <div id="login-container">
- 
-    <!-- app title -->
     <h1 id="title">Auggie <span>Netizen</span></h1>
- 
-    <!-- login card -->
+
     <div id="login-form">
- 
-      <!-- email input -->
       <input type="email" id="email" placeholder="username@augsburg.edu" autocomplete="email" required>
- 
-      <!-- password input -->
       <input type="password" id="password" placeholder="********" required>
- 
-      <!-- login button -->
+
       <div id="login-buttons">
         <button id="login-button">Login</button>
       </div>
- 
-      <!-- register redirect -->
+
       <p>Don't have an account? <button><a href="register.html">Register</a></button></p>
- 
-      <!-- error message populated by script.js -->
       <p id="error-message"></p>
- 
     </div>
   </div>
- 
+
+  <script>
+    const SUPABASE_URL  = 'https://tqdizldvweawdiynscot.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxZGl6bGR2d2Vhd2RpeW5zY290Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzMzMwOTEsImV4cCI6MjA4ODkwOTA5MX0.Z6EEj9W-8QeTtbFgX1pmiiHVWJX_T2z6st_DGt9KJrM';
+
+    const { createClient } = supabase;
+    const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    document.getElementById('login-button').addEventListener('click', async () => {
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const errEl    = document.getElementById('error-message');
+      const btn      = document.getElementById('login-button');
+
+      errEl.textContent = '';
+
+      if (!email || !password) {
+        errEl.textContent = 'Please fill in all fields.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Logging in…';
+
+      const { data, error } = await sb.auth.signInWithPassword({ email, password });
+
+      btn.disabled = false;
+      btn.textContent = 'Login';
+
+      if (error) {
+        errEl.textContent = error.message;
+      } else {
+        
+        window.location.href = 'profile.html'; 
+      }
+    });
+  </script>
+
 </body>
 </html>
