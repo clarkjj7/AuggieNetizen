@@ -263,6 +263,25 @@ h3 {
     margin: 0;
 }
 
+.incident-type-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.incident-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(122, 122, 255, 0.2);
+    border: 1px solid rgba(180, 180, 255, 0.35);
+    color: #e2e2ff;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
 .incident-time {
     color: #b8b8c7;
     font-size: 12px;

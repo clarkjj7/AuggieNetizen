@@ -37,6 +37,10 @@ var accidentIcon = new LeafIcon({iconUrl: 'images/accident.png'}),
 /* newest ones should show first in the bottom sheet */
 var incidents = [];
 var markersLayer = L.layerGroup().addTo(map);
+var markerByIncidentId = {};
+var urlParams = new URLSearchParams(window.location.search);
+var requestedIncidentId = urlParams.get("incident");
+var incidentResetAt = new Date("2026-04-29T03:30:00.000Z");
 
 function toTitleCase(value) {
     return String(value || "")
@@ -51,6 +55,7 @@ function getIncidentIcon(type) {
         car_accident: accidentIcon,
         break_in: breakinIcon,
         fire: fireIcon,
+        suspicious: suspiciousIcon,
         suspicious_activity: suspiciousIcon,
         medical: medicalIcon,
         other: otherIcon
@@ -60,6 +65,10 @@ function getIncidentIcon(type) {
 }
 
 function normalizeIncident(incident) {
+    var lat = Number(incident.lat);
+    var lng = Number(incident.lng);
+    var hasCoords = !Number.isNaN(lat) && !Number.isNaN(lng);
+
     return {
         id: incident.id,
         type: incident.type || "other",
@@ -67,7 +76,8 @@ function normalizeIncident(incident) {
         description: incident.description || "No description provided.",
         location: incident.address || "Augsburg University",
         time: incident.created_at || new Date().toISOString(),
-        coords: [Number(incident.lat), Number(incident.lng)],
+        coords: [lat, lng],
+        hasCoords: hasCoords,
         icon: getIncidentIcon(incident.type)
     };
 }
@@ -75,15 +85,22 @@ function normalizeIncident(incident) {
 /* now we add the icon to the map's location */
 function renderMarkers() {
     markersLayer.clearLayers();
+    markerByIncidentId = {};
 
     incidents.forEach(function(incident) {
-        L.marker(incident.coords, {icon: incident.icon})
+        if (!incident.hasCoords) {
+            return;
+        }
+
+        var marker = L.marker(incident.coords, {icon: incident.icon})
             .addTo(markersLayer)
             .bindPopup(
                 "<strong>" + incident.title + "</strong><br>" +
                 incident.location + "<br>" +
                 incident.description
             );
+
+        markerByIncidentId[incident.id] = marker;
     });
 }
 
@@ -109,7 +126,10 @@ function renderIncidents() {
 
         card.innerHTML = `
             <div class="incident-top">
-                <h4 class="incident-type">${incident.title}</h4>
+                <div class="incident-type-group">
+                    <h4 class="incident-type">${incident.title}</h4>
+                    <span class="incident-tag">${toTitleCase(incident.type)}</span>
+                </div>
                 <span class="incident-time">${formatIncidentTime(incident.time)}</span>
             </div>
             <p class="incident-location">${incident.location}</p>
@@ -118,11 +138,28 @@ function renderIncidents() {
 
         card.addEventListener("click", function(event) {
             event.stopPropagation();
-            map.setView(incident.coords, 17);
+
+            if (incident.hasCoords) {
+                map.setView(incident.coords, 17);
+            }
         });
 
         incidentList.appendChild(card);
     });
+}
+
+function focusRequestedIncident() {
+    if (!requestedIncidentId) {
+        return;
+    }
+
+    var marker = markerByIncidentId[requestedIncidentId];
+    if (!marker) {
+        return;
+    }
+
+    map.setView(marker.getLatLng(), 17);
+    marker.openPopup();
 }
 
 function loadIncidents() {
@@ -139,7 +176,7 @@ function loadIncidents() {
             incidents = incidentRows
                 .map(normalizeIncident)
                 .filter(function(incident) {
-                    return !Number.isNaN(incident.coords[0]) && !Number.isNaN(incident.coords[1]);
+                    return new Date(incident.time) >= incidentResetAt;
                 })
                 .sort(function(a, b) {
                     return new Date(b.time) - new Date(a.time);
@@ -147,6 +184,7 @@ function loadIncidents() {
 
             renderMarkers();
             renderIncidents();
+            focusRequestedIncident();
         })
         .catch(function(error) {
             console.error("Error loading incidents:", error);

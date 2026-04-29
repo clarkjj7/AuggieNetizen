@@ -73,9 +73,13 @@ app.get('/incidents', async (req, res) => {
     return res.status(200).json({incidents: data})
 })
  
-// this will create a new incident ( you have to be  be logged in)
-app.post('/incidents', authenticate, async (req, res) => {
+// this will create a new incident
+app.post('/incidents', async (req, res) => {
     const {type, title, description, lat, lng, address, severity} = req.body
+
+    if (!type || !title) {
+        return res.status(400).json({error: 'type and title are required'})
+    }
  
     const {data, error} = await supabase
         .from('incidents')
@@ -88,7 +92,7 @@ app.post('/incidents', authenticate, async (req, res) => {
             address,
             severity: severity || 'medium',
             status: 'unverified',
-            reported_by: req.user.id
+            reported_by: null
         }])
         .select()
         .single()

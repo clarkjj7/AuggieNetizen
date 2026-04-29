@@ -1,34 +1,32 @@
-// ── Import Supabase client from CDN (no npm needed for frontend) ──
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+var options = document.querySelectorAll(".option");
+var submitButton = document.getElementById("submit");
 
-// ── Connect to the shared Supabase database ──
-const supabase = createClient(
-  'https://tqdizldvweawdiynscot.supabase.co',  // project URL
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxZGl6bGR2d2Vhd2RpeW5zY290Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzMzMwOTEsImV4cCI6MjA4ODkwOTA5MX0.Z6EEj9W-8QeTtbFgX1pmiiHVWJX_T2z6st_DGt9KJrM'  // public anon key
-);
-
-// ── Incident type selector ──
-// When a user clicks an option (e.g. "Fire", "Suspicious Activity"),
-// remove "selected" from all options and add it only to the clicked one
-const options = document.querySelectorAll(".option");
-options.forEach(opt => {
-  opt.addEventListener("click", () => {
-    options.forEach(o => o.classList.remove("selected"));
-    opt.classList.add("selected");
+// Keep incident type selection reliable.
+options.forEach(function(option) {
+  option.addEventListener("click", function() {
+    options.forEach(function(item) {
+      item.classList.remove("selected");
+    });
+    option.classList.add("selected");
   });
 });
 
-// ── Submit button ──
-// When clicked, grab all form values and insert a new row into Supabase
-document.getElementById("submit").addEventListener("click", async () => {
+submitButton.addEventListener("click", async function () {
 
   // Get the selected incident type from whichever option has "selected" class
-  const type        = document.querySelector(".option.selected")?.dataset.type;
+  var selectedTypeOption = document.querySelector(".option.selected");
+  var type = selectedTypeOption ? selectedTypeOption.dataset.type : "";
 
   // Get text field values from the form
-  const title       = document.getElementById("title")?.value;
-  const description = document.getElementById("description")?.value;
-  const severity    = document.getElementById("severity")?.value;
+  var titleInput = document.getElementById("title");
+  var descriptionInput = document.getElementById("description");
+  var severitySelect = document.getElementById("severity");
+  var locationSelect = document.getElementById("locationSelect");
+  var selectedOption = locationSelect ? locationSelect.options[locationSelect.selectedIndex] : null;
+
+  var title = titleInput ? titleInput.value.trim() : "";
+  var description = descriptionInput ? descriptionInput.value.trim() : "";
+  var severity = severitySelect ? severitySelect.value : "medium";
 
   // Basic validation — type and title are required
   if (!type || !title) {
@@ -36,16 +34,67 @@ document.getElementById("submit").addEventListener("click", async () => {
     return;
   }
 
-  // Insert the new incident into the "incidents" table in Supabase
-  const { error } = await supabase
-    .from('incidents')
-    .insert([{ type, title, description, severity }]);
+  if (!selectedOption || !selectedOption.value) {
+    alert("Please choose a location.");
+    return;
+  }
 
-  // Show error if insert failed, otherwise confirm success
-  if (error) {
+  var lat = selectedOption.dataset.lat ? Number(selectedOption.dataset.lat) : null;
+  var lng = selectedOption.dataset.lng ? Number(selectedOption.dataset.lng) : null;
+  var address = selectedOption.value;
+
+  if (Number.isNaN(lat) || Number.isNaN(lng)) {
+    alert("Please choose a mapped location.");
+    return;
+  }
+
+  submitButton.disabled = true;
+  submitButton.textContent = "SUBMITTING...";
+
+  // Insert the new incident into the "incidents" table in Supabase
+  try {
+    var response = await fetch("/incidents", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        type: type,
+        title: title,
+        description: description,
+        severity: severity,
+        address: address,
+        lat: lat,
+        lng: lng
+      })
+    });
+
+    var payload = await response.json();
+
+    submitButton.disabled = false;
+    submitButton.textContent = "SUBMIT REPORT";
+
+    if (!response.ok) {
+      console.error(payload);
+      alert(payload.error || "Failed to submit report.");
+      return;
+    }
+
+    var params = new URLSearchParams();
+    params.set("submitted", "1");
+    if (payload && payload.id) {
+      params.set("incident", payload.id);
+    }
+
+    window.location.href = "map.html?" + params.toString();
+  } catch (error) {
+    submitButton.disabled = false;
+    submitButton.textContent = "SUBMIT REPORT";
     console.error(error);
-    alert("Failed to submit report.");
-  } else {
-    alert("Report submitted!");
+    if (window.location.protocol === "file:") {
+      alert("Could not reach server. Open this page at http://localhost:3030/report.html (not as a local file).");
+      return;
+    }
+    alert("Could not reach server. Make sure server.js is running on port 3030.");
   }
 });

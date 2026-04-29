@@ -203,39 +203,6 @@
 
     .description-card textarea::placeholder { color: #9ca3af; }
 
-    /* ── location card: same card style ── */
-    .location-card {
-      background: #1d1e27;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
-      padding: 12px 14px;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .location-card input {
-      background: transparent;
-      border: none;
-      color: #e2e2ff;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 14px;
-      outline: none;
-      flex: 1;
-    }
-
-    .location-card input::placeholder { color: #9ca3af; }
-
-    /* ── location icon dot ── */
-    .location-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #ffb4b4;
-      flex-shrink: 0;
-    }
-
     /* ── submit button: maroon, matches edit-btn style ── */
     #submit {
       width: 100%;
@@ -253,6 +220,7 @@
     }
 
     #submit:hover { background: rgba(136, 19, 19, 0.55); }
+    #submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
     /* ── mobile: show hamburger, stack nav vertically ── */
     @media (max-width: 768px) {
@@ -287,7 +255,6 @@
       <li class="nav-item"><a class="nav-link" href="map.html">Map</a></li>
       <li class="nav-item"><a class="nav-link" href="feed.html">Feed</a></li>
       <li class="nav-item"><a class="nav-link active" href="report.html">Report</a></li>
-      <li class="nav-item"><a class="nav-link" href="alerts.html">Alerts</a></li>
       <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
     </ul>
   </div>
@@ -330,14 +297,40 @@
       </select>
     </div>
 
+    <!-- choose one campus location to map -->
+    <div class="section-label">Location</div>
+    <div class="description-card">
+      <select id="locationSelect">
+        <option value="">Choose a location...</option>
+        <option value="Anderson Hall" data-lat="44.9653393" data-lng="-93.2437114">Anderson Hall</option>
+        <option value="Si Melby Hall" data-lat="44.9658292" data-lng="-93.2388121">Si Melby Hall</option>
+        <option value="Kennedy Center" data-lat="44.9655512" data-lng="-93.23881">Kennedy Center</option>
+        <option value="Augsburg Ice Arena" data-lat="44.9658043" data-lng="-93.238042">Augsburg Ice Arena</option>
+        <option value="Edor Nelson Athletic Field" data-lat="44.965035" data-lng="-93.2385367">Edor Nelson Athletic Field</option>
+        <option value="Murphy Square" data-lat="44.9652851" data-lng="-93.2401138">Murphy Square</option>
+        <option value="Mortensen Hall" data-lat="44.9650826" data-lng="-93.2420355">Mortensen Hall</option>
+        <option value="Urness-Mortensen Lobby" data-lat="44.9650952" data-lng="-93.2416661">Urness-Mortensen Lobby</option>
+        <option value="Lindell Library" data-lat="44.9668254" data-lng="-93.2417778">Lindell Library</option>
+        <option value="Old Main" data-lat="44.9656485" data-lng="-93.2420211">Old Main</option>
+        <option value="Music Building" data-lat="44.9662509" data-lng="-93.2403976">Music Building</option>
+        <option value="Hagfors Center" data-lat="44.9669116" data-lng="-93.2433045">Hagfors Center</option>
+        <option value="Sverdrup Hall" data-lat="44.9663764" data-lng="-93.2419287">Sverdrup Hall</option>
+        <option value="Christensen Center" data-lat="44.9656511" data-lng="-93.2414438">Christensen Center</option>
+        <option value="Foss Center" data-lat="44.9666851" data-lng="-93.2400305">Foss Center</option>
+        <option value="Urness Hall" data-lat="44.9650541" data-lng="-93.2413751">Urness Hall</option>
+        <option value="Campus Parking Lots" data-lat="44.96659" data-lng="-93.23931">Campus Parking Lots</option>
+        <option value="Other / Not Listed" data-lat="44.96700" data-lng="-93.24000">Other / Not Listed</option>
+      </select>
+    </div>
+
     <!-- submit — report.js listens for click on id="submit" -->
-    <div id="submit">SUBMIT REPORT</div>
+    <button id="submit" type="button">SUBMIT REPORT</button>
 
   </div>
 </div>
 
 <!--  -->
-<script type="module" src="report.js"></script>
+<script src="report.js"></script>
 
 <!-- hamburger  -->
 <script>
